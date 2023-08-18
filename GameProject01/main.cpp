@@ -1,4 +1,6 @@
 ﻿#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -88,7 +90,7 @@ void setScoreBoard() {
     }
     */
 
-    for (size_t i = 0; i < entries.size() ; i++) {
+    for (size_t i = 0; i < entries.size() && i < 5; i++) {
         
         lineScore << entries[i].letter << "    " << entries[i].number << "\n";
     }
@@ -201,6 +203,35 @@ restart:
     
     HPBarRed.setFillColor(sf::Color::Red);
 
+    sf::SoundBuffer normShootF;
+    normShootF.loadFromFile("D:/GameProject01/GameProject01/sound/normgun.mp3");
+    sf::Sound normShootS;
+    normShootS.setBuffer(normShootF);
+    normShootS.setVolume(22);
+
+    sf::SoundBuffer boomF;
+    boomF.loadFromFile("D:/GameProject01/GameProject01/sound/boom.mp3");
+    sf::Sound boomS;
+    boomS.setBuffer(boomF);
+    boomS.setVolume(200);
+
+    sf::SoundBuffer shotgunF;
+    shotgunF.loadFromFile("D:/GameProject01/GameProject01/sound/shotgun.mp3");
+    sf::Sound shotgunS;
+    shotgunS.setBuffer(shotgunF);
+    shotgunS.setVolume(30);
+
+    sf::Music music;
+    music.openFromFile("D:/GameProject01/GameProject01/sound/music.mp3");
+    music.setLoop(true);
+    music.setVolume(30);
+
+    sf::Texture howtoplay;
+    howtoplay.loadFromFile("D:/GameProject01/GameProject01/sprite/howtoplay.png");
+
+    sf::Sprite howtoplayBack;
+    howtoplayBack.setTexture(howtoplay);
+    howtoplayBack.setPosition(0, 0);
 
     PauseMenu pauseMenu(window);
 
@@ -216,6 +247,7 @@ restart:
     bool endGame = false;
     bool enterName = false;
     bool callfunction =  false;
+    bool musicPlay = false;
     float deltaTime = 0.0f;
     int rateFire = 0;
     int ang1;
@@ -236,6 +268,7 @@ restart:
     float yOffset = 500.0f;
 
     bool showScore = false;
+    bool showHowtoplay = false;
 
     std::vector<Enemy> enemies;
     std::vector<Enemy1> enemies1;
@@ -272,6 +305,7 @@ restart:
     Shotgun s3;
     Missile m1;
     
+
     while (window.isOpen())
     {
         
@@ -310,6 +344,11 @@ restart:
                 }
                 if (menu.isPressScoreButton(mousePosition)) {
                     showScore = true;
+                    gameStarted = true;
+
+                }
+                if (menu.isPressHowToPlayButton(mousePosition)) {
+                    showHowtoplay = true;
                     gameStarted = true;
 
                 }
@@ -374,9 +413,26 @@ restart:
                 }
             }
 
-
             window.draw(scoreBoardText);
             window.draw(setScoreText);
+            window.display();
+            continue;
+        }
+
+        if (showHowtoplay) {
+
+            window.draw(black);
+            window.draw(howtoplayBack);
+            menu.drawBack(window);
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (menu.isPressBackButton(worldMousePosition)) {
+
+                        goto restart;
+                    }
+                }
+            }
+
             window.display();
             continue;
         }
@@ -430,7 +486,6 @@ restart:
             
         }
 
-
         if (enemies.empty() && !endGame) {
             waveDelay += deltaTime;
             if (waveDelay >= 1.f) {
@@ -439,6 +494,11 @@ restart:
                 nowEnemy = enemies.size();
                 waveDelay = 0;
             }
+            
+        }
+        if (!musicPlay) {
+            music.play();
+            musicPlay = !musicPlay;
             
         }
 
@@ -726,6 +786,7 @@ restart:
                 rateFire++;
             if (rateFire >= 5 && bullets.size() < 10)
             {
+                normShootS.play();
                 b1.shape.setPosition(playerCenter);
 
                 b1.currVelocity = aimDirNorm1 * 30.f;
@@ -801,6 +862,7 @@ restart:
 
             if (shotguns1.size() < 1 && shotgunAmmo > 0)
             {
+                shotgunS.play();
                 s1.shape.setPosition(playerCenter);
 
                 s1.currVelocity = aimDirNorm1 * 18.f;
@@ -967,6 +1029,8 @@ restart:
 
             if (missiles.size() < 1 && boomobjs.size() < 1 && missileAmmo > 0)
             {
+                boomS.play();
+
                 m1.shape.setPosition(playerCenter);
 
                 m1.currVelocity = aimDirNorm1 * 30.f;
