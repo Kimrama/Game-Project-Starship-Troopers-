@@ -111,12 +111,12 @@ restart:
     */
 
     sf::Texture playerTexture;
-    playerTexture.loadFromFile("D:/GameProject01/GameProject01/sprite/Soldiers/Assault-Class.png");
+    playerTexture.loadFromFile("./sprite/Soldiers/Assault-Class.png");
 
     player character(&playerTexture, sf::Vector2f(9600.0f, 5400.0f), sf::Vector2u(5, 9), 0.1f, 150.0f);
 
     sf::Font font;
-    font.loadFromFile("D:/GameProject01/GameProject01/font1.ttf");
+    font.loadFromFile("./font1.ttf");
 
     sf::Text showWave;
 
@@ -204,30 +204,30 @@ restart:
     HPBarRed.setFillColor(sf::Color::Red);
 
     sf::SoundBuffer normShootF;
-    normShootF.loadFromFile("D:/GameProject01/GameProject01/sound/normgun.mp3");
+    normShootF.loadFromFile("./sound/normgun.mp3");
     sf::Sound normShootS;
     normShootS.setBuffer(normShootF);
     normShootS.setVolume(22);
 
     sf::SoundBuffer boomF;
-    boomF.loadFromFile("D:/GameProject01/GameProject01/sound/boom.mp3");
+    boomF.loadFromFile("./sound/boom.mp3");
     sf::Sound boomS;
     boomS.setBuffer(boomF);
     boomS.setVolume(200);
 
     sf::SoundBuffer shotgunF;
-    shotgunF.loadFromFile("D:/GameProject01/GameProject01/sound/shotgun.mp3");
+    shotgunF.loadFromFile("./sound/shotgun.mp3");
     sf::Sound shotgunS;
     shotgunS.setBuffer(shotgunF);
     shotgunS.setVolume(30);
 
     sf::Music music;
-    music.openFromFile("D:/GameProject01/GameProject01/sound/music.mp3");
+    music.openFromFile("./sound/music.mp3");
     music.setLoop(true);
     music.setVolume(30);
 
     sf::Texture howtoplay;
-    howtoplay.loadFromFile("D:/GameProject01/GameProject01/sprite/howtoplay.png");
+    howtoplay.loadFromFile("./sprite/howtoplay.png");
 
     sf::Sprite howtoplayBack;
     howtoplayBack.setTexture(howtoplay);
@@ -235,7 +235,7 @@ restart:
 
     PauseMenu pauseMenu(window);
 
-    Map myMap(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 10);
+    Map map(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 10);
     menu menu;
 
     sf::Clock clock;
@@ -358,7 +358,7 @@ restart:
         if (isPause && gameStarted && !showScore && !endGame) {
 
             deltaTime = 0.0f;
-            myMap.draw(window);
+            map.draw(window);
             character.draw(window);
             pauseMenu.setPosition(character.getBody().getPosition());
             pauseMenu.draw(window);
@@ -439,7 +439,7 @@ restart:
 
         if (endGame) {
             deltaTime = 0.0f;
-            myMap.draw(window);
+            map.draw(window);
             character.draw(window);
             std::stringstream ssonlyScore;
             ssonlyScore << "SCORE : " << score;
@@ -454,6 +454,8 @@ restart:
             for (auto &i : enemies2) {
                 i.draw(window);
             }
+
+            
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
@@ -781,7 +783,7 @@ restart:
             float sc = 1.0f / sqrt(pow(aimDir1.x, 2) + pow(aimDir1.y, 2));
             aimDirNorm1 = aimDir1 * sc;
             ang1 = std::atan2f(aimDirNorm1.x, aimDirNorm1.y) * 180 / 3.01415926535;
-            std::cout << "ang  = " << ang1 << std::endl;
+            //std::cout << "ang  = " << ang1 << std::endl;
             if (rateFire < 6)
                 rateFire++;
             if (rateFire >= 5 && bullets.size() < 10)
@@ -813,7 +815,7 @@ restart:
                 if (bullets[i].shape.getGlobalBounds().intersects(enemies[j].getSprite().getGlobalBounds()))
                 {
                     bullets.erase(bullets.begin() + i);
-                    enemies[j].takeDamage(1);
+                    enemies[j].takeDamage(5);
                     break;
                 }
             }
@@ -824,7 +826,7 @@ restart:
                 if (bullets[i].shape.getGlobalBounds().intersects(enemies1[j].getSprite().getGlobalBounds()))
                 {
                     bullets.erase(bullets.begin() + i);
-                    enemies1[j].takeDamage(1);
+                    enemies1[j].takeDamage(5);
                     break;
                 }
             }
@@ -835,7 +837,7 @@ restart:
                 if (bullets[i].shape.getGlobalBounds().intersects(enemies2[j].getSprite().getGlobalBounds()))
                 {
                     bullets.erase(bullets.begin() + i);
-                    enemies2[j].takeDamage(1);
+                    enemies2[j].takeDamage(5);
                     break;
                 }
             }
@@ -858,7 +860,7 @@ restart:
             ang1 = std::atan2f(aimDirNorm1.x, aimDirNorm1.y) * 180 / 3.01415926535;
             ang2 = std::atan2f(aimDirNorm2.x, aimDirNorm2.y) * 180 / 3.01415926535;
             ang3 = std::atan2f(aimDirNorm3.x, aimDirNorm3.y) * 180 / 3.01415926535;
-            std::cout << "ang  = " << ang1 << std::endl;
+            //std::cout << "ang  = " << ang1 << std::endl;
 
             if (shotguns1.size() < 1 && shotgunAmmo > 0)
             {
@@ -1025,7 +1027,7 @@ restart:
             float sc = 1.0f / sqrt(pow(aimDir1.x, 2) + pow(aimDir1.y, 2));
             aimDirNorm1 = aimDir1 * sc;
             ang1 = std::atan2f(aimDirNorm1.x, aimDirNorm1.y) * 180 / 3.01415926535;
-            std::cout << "ang  = " << ang1 << std::endl;
+            //std::cout << "ang  = " << ang1 << std::endl;
 
             if (missiles.size() < 1 && boomobjs.size() < 1 && missileAmmo > 0)
             {
@@ -1129,7 +1131,7 @@ restart:
         character.movementUpdate(deltaTime, mouse);
 
 
-        myMap.draw(window);
+        map.draw(window);
 
         for (auto i : enemies) {
             i.draw(window);

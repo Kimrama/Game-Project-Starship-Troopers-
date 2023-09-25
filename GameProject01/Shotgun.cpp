@@ -6,10 +6,6 @@ const sf::RectangleShape& Shotgun::getShape() const
 	return shape;
 }
 
-void Shotgun::update()
-{
-
-}
 
 void Shotgun::render(sf::RenderTarget& target)
 {

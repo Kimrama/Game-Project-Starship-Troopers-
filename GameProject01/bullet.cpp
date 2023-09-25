@@ -6,11 +6,6 @@ const sf::RectangleShape& Bullet::getShape() const
 	return shape;
 }
 
-void Bullet::update()
-{
-
-}
-
 void Bullet::render(sf::RenderTarget& target)
 {
 	target.draw(this->shape);

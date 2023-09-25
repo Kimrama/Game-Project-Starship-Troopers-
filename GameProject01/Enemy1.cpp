@@ -8,7 +8,7 @@ Enemy1::Enemy1(const sf::Vector2f& position)
     : maxHP(3), currentHP(3), dead(false)
 {
 
-    if (!texture.loadFromFile("D:/GameProject01/GameProject01/sprite/Robots/Wasp1.png")) {
+    if (!texture.loadFromFile("./sprite/Robots/Wasp1.png")) {
         std::cerr << "Error loading texture monster" << std::endl;
         return;
     }

@@ -2,7 +2,7 @@
 
 BoomObj::BoomObj(const sf::Vector2f& position)
 {
-    texture.loadFromFile("D:/GameProject01/GameProject01/sprite/Explosion 2 SpriteSheet.png");
+    texture.loadFromFile("./sprite/Explosion 2 SpriteSheet.png");
 
     sprite.setScale(8, 8);
     sprite.setOrigin(24.f, 24.f);

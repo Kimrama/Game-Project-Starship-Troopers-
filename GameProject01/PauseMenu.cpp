@@ -3,7 +3,7 @@
 
 PauseMenu::PauseMenu(sf::RenderWindow& window)
 {
-    if (!font.loadFromFile("D:/GameProject01/GameProject01/font1.ttf")) {
+    if (!font.loadFromFile("./font1.ttf")) {
         std::cerr << "Error loading font!" << std::endl;
     }
 
